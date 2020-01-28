@@ -41,16 +41,25 @@ mk_pex() {
 
   pipenv lock -r > "${req_txt}"
 
-  args=(
-    .
-    -v -v -v
-    -r "${req_txt}"
-    -m "${module_entry_point}"
-    -o "${temp_utils_pex}"
-    # --interpreter-constraint 'CPython>=3.7,<4'
-  )
+  # args=(
+  #   .
+  #   -v -v -v
+  #   -r "${req_txt}"
+  #   -m "${module_entry_point}"
+  #   -o "${temp_utils_pex}"
+  #   # --interpreter-constraint 'CPython>=3.7,<4'
+  # )
 
-  python -m pex "${args[@]}"
+  # curl -L -v 'https://github.com/pantsbuild/pex/releases/download/v2.1.0/pex' -o pex-2.1.0.pex \
+  #      && chmod +x ./pex-2.1.0.pex
+
+  ./pex-2.1.0.pex \
+    -vvvvvvvvv \
+    --sources-directory=src \
+    --entry-point="${module_entry_point}" \
+    --validate-entry-point \
+    -r "${req_txt}" \
+    -o "${temp_utils_pex}"
 
   mv "${temp_utils_pex}" "${dest_path}"
 }
